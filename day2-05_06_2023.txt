@@ -148,7 +148,7 @@ class Solution
         }
 };
 
-8. Merge 
+8. Merge sorted array
 https://leetcode.com/problems/merge-sorted-array/
 class Solution {
     public void merge(int[] a, int m, int[] b, int n) {
