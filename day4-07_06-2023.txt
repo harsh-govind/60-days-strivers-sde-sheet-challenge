@@ -110,7 +110,7 @@ class Solution
 };
 
 16. 4Sum
-https://leetcode.com/problems/3sum/
+https://leetcode.com/problems/4sum/
 class Solution
 {
     public:
