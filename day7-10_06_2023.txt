@@ -78,6 +78,56 @@ https://leetcode.com/problems/palindrome-linked-list/
 class Solution
 {
     public:
+        ListNode* rev(ListNode *head)
+        {
+            ListNode *p = head, *q = nullptr, *r = nullptr;
+            while (p)
+            {
+                r = q;
+                q = p;
+                p = p->next;
+                q->next = r;
+            }
+            head = q;
+            return head;
+        }
+    ListNode* findMid(ListNode *head)
+    {
+        ListNode *slow = head, *fast = head;
+        while (fast->next)
+        {
+            fast = fast->next;
+            if (fast->next)
+            {
+                slow = slow->next;
+                fast = fast->next;
+            }
+        }
+        return slow;
+    }
+    bool isPalindrome(ListNode *head)
+    {
+        ListNode *mid = findMid(head);
+        ListNode *first = head, *second = mid->next;
+        mid->next = nullptr;
+        second = rev(second);
+
+        while (first and second)
+        {
+            if (first->val != second->val)
+            {
+                return false;
+            }
+            first = first->next;
+            second = second->next;
+        }
+        return true;
+    }
+};
+
+class Solution
+{
+    public:
         bool isPalindrome(ListNode *head)
         {
             string s = "";
