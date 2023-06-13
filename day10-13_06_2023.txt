@@ -1,4 +1,4 @@
-28. Set Matrix Zeroes
+36. Set Matrix Zeroes
 https://leetcode.com/problems/set-matrix-zeroes/
 class Solution
 {
@@ -31,7 +31,7 @@ class Solution
         }
 };
 
-29. pow(x,n)
+37. pow(x,n)
 https://leetcode.com/problems/powx-n/
 class Solution
 {
@@ -54,7 +54,7 @@ class Solution
         }
 };
 
-30. Unique Paths
+38. Unique Paths
 https://leetcode.com/problems/unique-paths/
 //Brute force using recursion
 class Solution
@@ -106,7 +106,7 @@ public:
 };
 
 
-31. Largest sub array with 0 sum
+39. Largest sub array with 0 sum
 https://practice.geeksforgeeks.org/problems/largest-subarray-with-0-sum/1
 
 

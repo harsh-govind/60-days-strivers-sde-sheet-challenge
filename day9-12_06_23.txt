@@ -1,4 +1,4 @@
-25. Trapping rain water 
+33. Trapping rain water 
 https://leetcode.com/problems/trapping-rain-water/
 
 class Solution
@@ -65,7 +65,7 @@ class Solution
         }
 };
 
-26. Remove duplicates from sorted array
+34. Remove duplicates from sorted array
 https://leetcode.com/problems/remove-duplicates-from-sorted-array/
 class Solution {
 public:
@@ -85,7 +85,7 @@ int removeDuplicates(vector<int> &v)
 }
 };
 
-27. Max consecutive ones
+35. Max consecutive ones
 https://leetcode.com/problems/max-consecutive-ones/
 class Solution
 {
