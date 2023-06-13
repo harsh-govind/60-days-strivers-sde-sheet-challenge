@@ -1,0 +1,139 @@
+28. Set Matrix Zeroes
+https://leetcode.com/problems/set-matrix-zeroes/
+class Solution
+{
+    public:
+        void setZeroes(vector<vector <int>> &vec)
+        {
+            int m = vec.size(), n = vec[0].size();
+            unordered_set<int> r, c;
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (vec[i][j] == 0)
+                    {
+                        r.insert(i);
+                        c.insert(j);
+                    }
+                }
+            }
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (r.find(i) != r.end() or c.find(j) != c.end())
+                    {
+                        vec[i][j] = 0;
+                    }
+                }
+            }
+        }
+};
+
+29. pow(x,n)
+https://leetcode.com/problems/powx-n/
+class Solution
+{
+    public:
+        double myPow(double x, int n)
+        {
+            int y = abs(n);
+            double ans = 1.0;
+            while (y>0)
+            {
+                if (y & 1)
+                {
+                    ans *= x;
+                }
+                x *= x;
+                y /= 2;
+            }
+
+            return n < 0 ? 1 / ans : ans;
+        }
+};
+
+30. Unique Paths
+https://leetcode.com/problems/unique-paths/
+//Brute force using recursion
+class Solution
+{
+    public:
+        bool check(int m, int n, int i, int j)
+        {
+            return i < m and j < n;
+        }
+    void solve(int m, int n, int i, int j, int &ans)
+    {
+        if (i == m-1 and j == n-1)
+        {
+            ans++;
+            return;
+        }
+
+       	//left
+        if (check(m, n, i, j + 1))
+        {
+            solve(m, n, i, j + 1, ans);
+        }
+
+       	//down
+        if (check(m, n, i + 1, j))
+        {
+            solve(m, n, i + 1, j, ans);
+        }
+    }
+    int uniquePaths(int m, int n)
+    {
+        int ans = 0;
+        solve(m, n, 0, 0, ans);
+        return ans;
+    }
+};
+//optimal
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        vector<vector<int>> dp(m, vector<int>(n, 1));
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+            }
+        }
+        return dp[m - 1][n - 1];
+    }
+};
+
+
+31. Largest sub array with 0 sum
+https://practice.geeksforgeeks.org/problems/largest-subarray-with-0-sum/1
+
+
+class Solution{
+    public:
+    int maxLen(vector<int>&a, int n)
+    {   
+        // Your code here
+        unordered_map<int, int> s;
+        int ans=0, i=0, sum=0;
+        while(i<n)
+        {
+            sum+=a[i];
+            if(sum==0)
+            {
+                ans=max(ans, i+1);
+            }
+            else if(s.find(sum)!=s.end())
+            {
+                ans=max(ans, i-s[sum]);
+            }
+            else
+            {
+                s[sum]=i;
+            }
+            i++;
+        }
+        return ans;
+    }
+};
