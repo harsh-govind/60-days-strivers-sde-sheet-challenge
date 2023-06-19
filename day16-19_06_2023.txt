@@ -63,6 +63,7 @@ vector<int> findStockSpans(vector<int>& prices)
 }
 
 60. The Celebrity Problem
+https://practice.geeksforgeeks.org/problems/the-celebrity-problem/1#
 class Solution 
 {
     public:
