@@ -1,0 +1,128 @@
+61. Level order traversal
+https://leetcode.com/problems/binary-tree-level-order-traversal/
+class Solution
+{
+    public:
+        vector<vector < int>> levelOrder(TreeNode *root)
+        {
+            vector<vector < int>> ans;
+            if (root == nullptr)
+            {
+                return ans;
+            }
+
+            queue<TreeNode*> q;
+            q.push(root);
+            while (!q.empty())
+            {
+
+                int n = q.size();
+                vector<int> current(n);
+
+                for (int i = 0; i < n; i++)
+                {
+                    TreeNode *temp = q.front();
+                    q.pop();
+                    current[i] = temp->val;
+
+                    if (temp->left)
+                    {
+                        q.push(temp->left);
+                    }
+
+                    if (temp->right)
+                    {
+                        q.push(temp->right);
+                    }
+                }
+
+                ans.push_back(current);
+            }
+            return ans;
+        }
+};
+
+62. Maximum depth of binary tree
+https://leetcode.com/problems/maximum-depth-of-binary-tree/
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        if(root==nullptr)
+        {
+            return 0;
+        }
+        
+        int left=maxDepth(root->left);
+        int right=maxDepth(root->right);
+        
+        int ans=max(left, right)+1;
+        
+        return ans;
+    }
+};
+
+63. Diameter of binary tree
+https://leetcode.com/problems/diameter-of-binary-tree/
+class Solution
+{
+    public:
+    pair<int, int> diameter(TreeNode *root)
+    {
+        if(root==nullptr)
+        {
+            pair<int, int> p=make_pair(0, 0);
+            return p;
+        }
+        
+        pair<int, int> left=diameter(root->left);
+        pair<int, int> right=diameter(root->right);
+        
+        //diameter- first
+        //height- second
+        int op1=left.first;
+        int op2=right.first;
+        int op3=left.second+right.second;
+        
+        pair<int, int> ans;
+        ans.first=max(op1, max(op2, op3));
+        ans.second=max(left.second, right.second)+1;
+        
+        return ans;     
+    }
+    int diameterOfBinaryTree(TreeNode *root)
+    {
+        return diameter(root).first;
+    }
+};
+
+64. Balanced binary tree
+https://leetcode.com/problems/balanced-binary-tree/
+class Solution
+{
+    public:
+        pair<bool, int> solve(TreeNode *root)
+        {
+            if (root == nullptr)
+            {
+                pair<bool, int> p = make_pair(true, 0);
+                return p;
+            }
+
+            pair<bool, int> left = solve(root->left);
+            pair<bool, int> right = solve(root->right);
+
+            bool op1 = left.first;
+            bool op2 = right.first;
+            bool op3 = abs(left.second - right.second) < 2;
+
+            pair<bool, int> ans;
+            ans.first = op1 and op2 and op3;
+            ans.second = max(left.second, right.second) + 1;
+
+            return ans;
+        }
+    bool isBalanced(TreeNode *root)
+    {
+        return solve(root).first;
+    }
+};
