@@ -1,0 +1,91 @@
+65. Binary tree inorder traversal
+https://leetcode.com/problems/binary-tree-inorder-traversal/
+class Solution
+{
+    public:
+    vector<int> v;
+    void inorder(TreeNode *root)
+    {
+        if(root)
+        {
+            inorder(root->left);
+            v.push_back(root->val);
+            inorder(root->right);
+        }
+    }
+    vector<int> inorderTraversal(TreeNode *root)
+    {
+        inorder(root);
+        return v;
+    }
+};
+
+66. Binary tree preorder traversal
+https://leetcode.com/problems/binary-tree-preorder-traversal/
+class Solution
+{
+    public:
+        void pre(vector<int> &ans, TreeNode *p)
+        {
+            if (p)
+            {
+                ans.push_back(p->val);
+                pre(ans, p->left);
+                pre(ans, p->right);
+            }
+        }
+    vector<int> preorderTraversal(TreeNode *root)
+    {
+        vector<int> ans;
+
+        pre(ans, root);
+
+        return ans;
+    }
+};
+
+67. Binary tree postorder traversal
+https://leetcode.com/problems/binary-tree-postorder-traversal/
+class Solution
+{
+    public:
+        void post(vector<int> &ans, TreeNode *p)
+        {
+            if (p)
+            {
+                post(ans, p->left);
+                post(ans, p->right);
+                ans.push_back(p->val);
+            }
+        }
+    vector<int> postorderTraversal(TreeNode *root)
+    {
+        vector<int> ans;
+
+        post(ans, root);
+
+        return ans;
+    }
+};
+
+68. Left view of binary tree
+https://practice.geeksforgeeks.org/problems/left-view-of-binary-tree/1
+void solve(Node *root, int level, vector<int> &ans)
+{
+    if(!root) return;
+    
+    if(level==ans.size())
+    {
+        ans.push_back(root->data);
+    }
+    
+    solve(root->left, level+1, ans);
+    solve(root->right, level+1, ans);
+}
+vector<int> leftView(Node *root)
+{
+   // Your code here
+   vector<int> ans;
+   solve(root, 0, ans);
+   return ans;
+}
