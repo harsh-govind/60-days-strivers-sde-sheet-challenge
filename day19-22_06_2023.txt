@@ -1,0 +1,209 @@
+69. Bottom view of binary tree
+https://practice.geeksforgeeks.org/problems/bottom-view-of-binary-tree/1
+
+class Solution {
+  public:
+    vector <int> bottomView(Node *root) {
+         //Your code here
+        vector<int> ans;
+        if(!root)
+        {
+            return ans;
+        }
+        
+        //horizontal distance -> node val
+        map<int, int> m;
+        
+        //Node, horizontal distance
+        queue<pair<Node*, int>> q;
+        
+        q.push(make_pair(root, 0));
+        
+        while(!q.empty())
+        {
+            pair<Node*, int> temp=q.front();
+            q.pop();
+            
+            Node *node=temp.first;
+            int hrDst=temp.second;
+            
+            m[hrDst]=node->data;
+            
+            if(node->left)
+            {
+                q.push(make_pair(node->left, hrDst-1));
+            }
+            
+            if(node->right)
+            {
+                q.push(make_pair(node->right, hrDst+1));
+            }
+            
+        }
+        for(auto &val:m)
+        {
+            ans.push_back(val.second);
+        }
+        return ans;
+    }
+};
+
+
+70. Top view of binary tree
+https://practice.geeksforgeeks.org/problems/top-view-of-binary-tree/1
+{
+    public:
+    //Function to return a list of nodes visible from the top view 
+    //from left to right in Binary Tree.
+    vector<int> topView(Node *root)
+    {
+        //Your code here
+        vector<int> ans;
+        if(!root)
+        {
+            return ans;
+        }
+        
+        //horizontal distance -> node val
+        map<int, int> m;
+        
+        //Node, horizontal distance
+        queue<pair<Node*, int>> q;
+        
+        q.push(make_pair(root, 0));
+        
+        while(!q.empty())
+        {
+            pair<Node*, int> temp=q.front();
+            q.pop();
+            
+            Node *node=temp.first;
+            int hrDst=temp.second;
+            
+            if(m.find(hrDst)==m.end())
+            {
+                m[hrDst]=node->data;
+            }
+            
+            if(node->left)
+            {
+                q.push(make_pair(node->left, hrDst-1));
+            }
+            
+            if(node->right)
+            {
+                q.push(make_pair(node->right, hrDst+1));
+            }
+            
+        }
+        for(auto &val:m)
+        {
+            ans.push_back(val.second);
+        }
+        return ans;
+    }
+};
+
+71. vertical order traversal
+https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/
+class Solution
+{
+    public:
+        vector<vector < int>> verticalTraversal(TreeNode *root)
+        {
+            vector<vector < int>> ans;
+            if (!root)
+            {
+                return ans;
+            }
+           	// horizontal distance -> level -> nodes
+            map<int, map<int, multiset< int>>> m;
+            // using multiset because we need to sort the values
+
+           	// node, horizontal distance -> level
+            queue<pair<TreeNode*, pair<int, int>>> q;
+
+            q.push(make_pair(root, make_pair(0, 0)));
+
+            while (!q.empty())
+            {
+                pair<TreeNode*, pair<int, int>> temp = q.front();
+                q.pop();
+
+                TreeNode *node = temp.first;
+                int hrdst = temp.second.first, lvl = temp.second.second;
+
+                m[hrdst][lvl].insert(node->val);
+
+                if (node->left)
+                {
+                    pair<TreeNode*, pair<int, int>> p;
+                    p.first = node->left;
+
+                    p.second.first = hrdst - 1;
+                    p.second.second = lvl + 1;
+
+                    q.push(p);
+                }
+
+                if (node->right)
+                {
+                    pair<TreeNode*, pair<int, int>> p;
+                    p.first = node->right;
+
+                    p.second.first = hrdst + 1;
+                    p.second.second = lvl + 1;
+                    q.push(p);
+                }
+            }
+
+            for (auto &i: m)
+            {
+                vector<int> col;
+                for (auto &j: i.second)
+                {
+                    col.insert(col.end(), j.second.begin(), j.second.end());
+                }
+                ans.push_back(col);
+            }
+
+            return ans;
+        }
+};
+
+72. LCA of BST
+https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
+class Solution
+{
+    public:
+        TreeNode* lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q)
+        {
+            if (!root) return nullptr;
+
+           	//when we found either p or q
+            if (root == p or root == q)
+            {
+                return root;
+            }
+
+            TreeNode *left = lowestCommonAncestor(root->left, p, q);
+            TreeNode *right = lowestCommonAncestor(root->right, p, q);
+
+            if (left and right)
+            {
+                return root;
+            }
+            else if (left and!right)
+            {
+                return left;
+            }
+            else if (right and!left)
+            {
+                return right;
+            }
+            else
+            {
+                return nullptr;
+            }
+        }
+};
