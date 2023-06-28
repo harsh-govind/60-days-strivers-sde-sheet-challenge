@@ -1,1 +1,90 @@
-79. 
+79. Morris Inorder Traversal
+https://leetcode.com/problems/binary-tree-inorder-traversal/
+class Solution
+{
+    public:
+        TreeNode* predecessor(TreeNode *current)
+        {
+            TreeNode *ans = current->left;
+            while (ans->right and ans->right != current)
+            {
+                ans = ans->right;
+            }
+            return ans;
+        }
+    vector<int> inorderTraversal(TreeNode *root)
+    {
+        vector<int> ans;
+        TreeNode *curr = root;
+        while (curr)
+        {
+            if (!curr->left)
+            {
+                ans.push_back(curr->val);
+                curr = curr->right;
+            }
+            else
+            {
+                TreeNode *pred = predecessor(curr);
+
+                if (!pred->right)
+                {
+                    pred->right = curr;
+                    curr = curr->left;
+                }
+                else
+                {
+                    pred->right = nullptr;
+                    ans.push_back(curr->val);
+                    curr = curr->right;
+                }
+            }
+        }
+        return ans;
+    }
+};
+
+80. Morris Preorder Traversal
+class Solution
+{
+    public:
+        TreeNode* predecessor(TreeNode *current)
+        {
+            TreeNode *ans = current->left;
+            while (ans->right and ans->right != current)
+            {
+                ans = ans->right;
+            }
+            return ans;
+        }
+    vector<int> preorderTraversal(TreeNode *root)
+    {
+        vector<int> ans;
+        TreeNode *curr = root;
+        while (curr)
+        {
+            if (!curr->left)
+            {
+                ans.push_back(curr->val);
+                curr = curr->right;
+            }
+            else
+            {
+                TreeNode *pred = predecessor(curr);
+
+                if (!pred->right)
+                {
+                    pred->right = curr;
+                    ans.push_back(curr->val);
+                    curr = curr->left;
+                }
+                else
+                {
+                    pred->right = nullptr;
+                    curr = curr->right;
+                }
+            }
+        }
+        return ans;
+    }
+};

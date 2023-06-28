@@ -1,0 +1,67 @@
+81. Zig Zag Traversal of Binary tree
+https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/
+class Solution
+{
+    public:
+        vector<vector < int>> zigzagLevelOrder(TreeNode *root)
+        {
+            vector<vector < int>> ans;
+            if (root == nullptr)
+            {
+                return ans;
+            }
+
+            queue<TreeNode*> q;
+            q.push(root);
+
+            bool leftToRight = true;
+            while (!q.empty())
+            {
+
+                int n = q.size();
+                vector<int> current(n);
+
+                for (int i = 0; i < n; i++)
+                {
+                    TreeNode *temp = q.front();
+                    q.pop();
+                    int idx = leftToRight ? i : n - i - 1;
+                    current[idx] = temp->val;
+
+                    if (temp->left)
+                    {
+                        q.push(temp->left);
+                    }
+
+                    if (temp->right)
+                    {
+                        q.push(temp->right);
+                    }
+                }
+
+                leftToRight = !leftToRight;
+                ans.push_back(current);
+            }
+            return ans;
+        }
+};
+82. Symmetric Binary TreeNode
+https://leetcode.com/problems/symmetric-tree/
+class Solution
+{
+    public:
+        bool check(TreeNode *l, TreeNode *r)
+        {
+            if(!l and !r) return true;
+            if(!l or !r) return false;
+            
+            return l->val==r->val and check(l->left, r->right) and check(l->right, r->left);
+        }
+        bool isSymmetric(TreeNode *root)
+        {
+            if(!root) return true;
+            
+            return check(root->left, root->right);
+
+        }
+};
