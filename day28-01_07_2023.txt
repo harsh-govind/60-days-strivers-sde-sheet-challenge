@@ -1,0 +1,249 @@
+89. Two sum in BST
+https://leetcode.com/problems/two-sum-iv-input-is-a-bst/
+class Solution
+{
+    public:
+        TreeNode* predecessor(TreeNode *current)
+        {
+            TreeNode *ans = current->left;
+            while (ans and ans->right and ans->right != current)
+            {
+                ans = ans->right;
+            }
+            return ans;
+        }
+    bool findTarget(TreeNode *root, int k)
+    {
+        vector<int> s;
+        TreeNode *curr = root;
+        while (curr)
+        {
+            if (!curr->left)
+            {
+                cout << curr->val << " ";
+                s.push_back(curr->val);
+                curr = curr->right;
+            }
+            else
+            {
+                TreeNode *pred = predecessor(curr);
+
+                if (!pred->right)
+                {
+                    pred->right = curr;
+                    curr = curr->left;
+                }
+                else
+                {
+                    cout << curr->val << " ";
+                    pred->right = nullptr;
+                    s.push_back(curr->val);
+                    curr = curr->right;
+                }
+            }
+        }
+
+        int i = 0, j = s.size() - 1;
+        while (i < j)
+        {
+            if (s[i] + s[j] == k)
+            {
+                return true;
+            }
+            else if (s[i] + s[j] < k)
+            {
+                i++;
+            }
+            else
+            {
+                j--;
+            }
+        }
+        return false;
+    }
+};
+
+90. Flatten Binary Tree to Linked List
+https://leetcode.com/problems/flatten-binary-tree-to-linked-list/
+class Solution
+{
+    public:
+        TreeNode* predecessor(TreeNode *current)
+        {
+            TreeNode *ans = current->left;
+            while (ans->right and ans->right != current)
+            {
+                ans = ans->right;
+            }
+            return ans;
+        }
+    void flatten(TreeNode *root)
+    {
+        TreeNode *curr = root;
+
+        while (curr)
+        {
+            if (curr->left)
+            {
+                TreeNode *pre = predecessor(curr);
+                pre->right = curr->right;
+                curr->right = curr->left;
+                curr->left = nullptr;
+                curr = curr->right;
+            }
+            else
+            {
+                curr = curr->right;
+            }
+        }
+    }
+};
+
+
+91. Convert Sorted Array to Binary Search Tree
+https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/
+class Solution
+{
+    public:
+        TreeNode* solve(vector<int> &nums, int low, int high)
+        {
+            if(low>high) return nullptr;
+            
+            int mid = (low + high) / 2;
+
+            TreeNode *node = new TreeNode(nums[mid]);
+            node->left = solve(nums, low, mid - 1);
+            node->right = solve(nums, mid + 1, high);
+            return node;
+        }
+    TreeNode* sortedArrayToBST(vector<int> &nums)
+    {
+        return solve(nums, 0, nums.size() - 1);
+    }
+};
+
+92. Floor in BST
+https://www.codingninjas.com/studio/problems/floor-from-bst_920457?source=youtube&campaign=Striver_Tree_Videos&utm_source=youtube&utm_medium=affiliate&utm_campaign=Striver_Tree_Videos&leftPanelTab=0
+int floorInBST(TreeNode<int> * root, int x)
+{
+    // Write your code here.
+    TreeNode<int> *temp=root;
+    int ans=-1;
+    while(temp)
+    {
+        if(x>=temp->val)
+        {
+            ans=temp->val;
+            temp=temp->right;
+        }
+        else
+        {
+            temp=temp->left;
+        }
+    }
+    return ans;
+}
+
+93. Ceil in BST
+https://www.codingninjas.com/studio/problems/ceil-from-bst_920464?source=youtube&campaign=Striver_Tree_Videos&utm_source=youtube&utm_medium=affiliate&utm_campaign=Striver_Tree_Videos&leftPanelTab=0
+
+int findCeil(BinaryTreeNode<int> *node, int x){
+    // Write your code here.
+    BinaryTreeNode<int> *temp=node;
+    int ans=-1;
+    while(temp)
+    {
+        if(x>temp->data)
+        {
+            temp=temp->right;
+        }
+        else
+        {
+            ans=temp->data;
+            temp=temp->left;
+        }
+    }
+    return ans;
+}
+
+94. Kth largest element in BST
+https://practice.geeksforgeeks.org/problems/kth-largest-element-in-bst/1#
+class Solution
+{
+    public:
+    int count(Node *root)
+    {
+        int ans=0;
+        Node *curr = root;
+        while (curr)
+        {
+            if (!curr->left)
+            {
+                ans++;
+                curr = curr->right;
+            }
+            else
+            {
+                Node *pred = predecessor(curr);
+
+                if (!pred->right)
+                {
+                    pred->right = curr;
+                    curr = curr->left;
+                }
+                else
+                {
+                    pred->right = nullptr;
+                    ans++;
+                    curr = curr->right;
+                }
+            }
+        }
+        return ans;
+    }
+    Node* predecessor(Node *current)
+        {
+            Node *ans = current->left;
+            while (ans->right and ans->right != current)
+            {
+                ans = ans->right;
+            }
+            return ans;
+        }
+    int kthLargest(Node *root, int k)
+    {
+        //Your code here
+        k=count(root)-k+1;
+        int i=0;
+        int ans=-1;
+        Node *curr = root;
+        while (curr)
+        {
+            if (!curr->left)
+            {
+                i++;
+                if(i==k) ans=curr->data;
+                curr = curr->right;
+            }
+            else
+            {
+                Node *pred = predecessor(curr);
+
+                if (!pred->right)
+                {
+                    pred->right = curr;
+                    curr = curr->left;
+                }
+                else
+                {
+                    pred->right = nullptr;
+                    i++;
+                    if(i==k) ans=curr->data;
+                    curr = curr->right;
+                }
+            }
+        }
+        return ans;
+    }
+};
+

@@ -1,0 +1,112 @@
+86. Lowest Common Ancestor of a Binary Search Tree
+https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if(!root)
+            return nullptr;
+        
+        if(root->val>p->val and root->val>q->val)
+        {
+            return lowestCommonAncestor(root->left, p, q);
+        }
+        
+        if(root->val<p->val and root->val<q->val)
+        {
+            return lowestCommonAncestor(root->right, p, q);
+        }
+        
+        return root;
+    }
+};
+
+87. Predecessor and Successor
+https://practice.geeksforgeeks.org/problems/predecessor-and-successor/1
+class Solution
+{
+    public:
+    void findPreSuc(Node* root, Node*& pre, Node*& suc, int key)
+    {
+        // Your code goes here
+        Node *temp=root;
+        pre=nullptr;
+        while(temp)
+        {
+            if(key<=temp->key)
+            {
+                temp=temp->left;
+            }
+            else
+            {
+                pre=temp;
+                temp=temp->right;
+            }
+        }
+        
+        suc=nullptr;
+        temp=root;
+        while(temp)
+        {
+            if(key<temp->key)
+            {
+                suc=temp;
+                temp=temp->left;
+            }
+            else
+            {
+                temp=temp->right;
+            }
+        }
+        
+    }
+};
+
+88. Kth Smallest Element in a BST
+https://leetcode.com/problems/kth-smallest-element-in-a-bst/
+class Solution
+{
+    public:
+        TreeNode* predecessor(TreeNode *current)
+        {
+            TreeNode *ans = current->left;
+            while (ans->right and ans->right != current)
+            {
+                ans = ans->right;
+            }
+            return ans;
+        }
+    int kthSmallest(TreeNode *root, int &k)
+    {
+        int i=0;
+        int ans=-1;
+        TreeNode *curr = root;
+        while (curr)
+        {
+            if (!curr->left)
+            {
+                i++;
+                if(i==k) ans=curr->val;
+                curr = curr->right;
+            }
+            else
+            {
+                TreeNode *pred = predecessor(curr);
+
+                if (!pred->right)
+                {
+                    pred->right = curr;
+                    curr = curr->left;
+                }
+                else
+                {
+                    pred->right = nullptr;
+                    i++;
+                    if(i==k) ans=curr->val;
+                    curr = curr->right;
+                }
+            }
+        }
+        return ans;
+    }
+};
+
