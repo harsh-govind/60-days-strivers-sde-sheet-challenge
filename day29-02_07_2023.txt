@@ -1,0 +1,134 @@
+95. Construct Binary Search Tree from Preorder Traversal
+https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal/
+class Solution {
+public:
+    TreeNode* solve(vector<int> &preorder, int &i, int mn, int mx)
+    {
+        if(i>=preorder.size()) return nullptr;
+        
+        if(preorder[i]<mn or preorder[i]>mx) return nullptr;
+        
+        TreeNode *node=new TreeNode(preorder[i++]);
+        
+        node->left=solve(preorder, i, mn, node->val);
+        node->right=solve(preorder, i, node->val, mx);
+        
+        return node;
+    }
+    TreeNode* bstFromPreorder(vector<int>& preorder) {
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+        
+        long long mn=-999999999, mx=999999999;
+        int i=0;
+        return solve(preorder, i, mn, mx);
+    }
+};
+
+96. Size of the largest BST in a Binary Tree
+https://practice.geeksforgeeks.org/problems/largest-bst/1
+class info{
+    public:
+    int mx;
+    int mn;
+    int size;
+    bool isBST;
+};
+class Solution{
+    public:
+    /*You are required to complete this method */
+    // Return the size of the largest sub-tree which is also a BST
+    info solve(Node *root, int &ans)
+    {
+        if(!root)
+        {
+            return {INT_MIN, INT_MAX, 0, true};
+        }
+        
+        info left=solve(root->left, ans);
+        info right=solve(root->right, ans);
+        
+        info current;
+        
+        current.mx=max(root->data, right.mx);
+        current.mn=min(root->data, left.mn);
+        current.size=left.size+right.size+1;
+        
+        if(left.isBST and right.isBST and root->data > left.mx and root->data<right.mn)
+        {
+            current.isBST = true;
+        }
+        else
+        {
+            current.isBST = false;
+        }
+        
+        if(current.isBST)
+        {
+            ans=max(ans, current.size);
+        }
+        
+        return current;
+    }
+    int largestBst(Node *root)
+    {
+    	//Your code here
+    	int ans=0;
+    	solve(root, ans);
+    	return ans;
+    }
+};
+
+97. Single Element in a Sorted Array
+https://leetcode.com/problems/single-element-in-a-sorted-array/
+class Solution {
+public:
+    int singleNonDuplicate(vector<int>& nums) {
+        int ans=0;
+        for(auto &val:nums)
+        {
+            ans^=val;
+        }
+        return ans;
+    }
+};
+
+class Solution {
+public:
+    int singleNonDuplicate(vector<int>& nums) {
+        int n=nums.size();
+        if(n==1) return nums[0];
+        
+        if(nums[0] != nums[1])
+        {
+            return nums[0];
+        }
+        
+        if(nums[n-1]!=nums[n-2])
+        {
+            return nums[n-1];
+        }
+        
+        int low=1, high=n-2;
+        
+        while(low<=high)
+        {
+            int mid=(low+high)/2;
+            
+            if(nums[mid]!=nums[mid-1] and nums[mid]!=nums[mid+1])
+            {
+                return nums[mid];
+            }
+            
+            if((mid%2==0 and nums[mid]==nums[mid+1]) or (mid%2==1 and nums[mid]==nums[mid-1]))
+            {
+                low=mid+1;
+            }
+            else
+            {
+                high=mid-1;
+            }
+        }
+        return -1;
+    }
+};

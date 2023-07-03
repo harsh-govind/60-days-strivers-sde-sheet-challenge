@@ -1,0 +1,100 @@
+98. Subset sums
+https://practice.geeksforgeeks.org/problems/subset-sums2234/1
+class Solution
+{
+public:
+    void solve(int i, vector<int> &ans, int currSum, int n, vector<int> &arr)
+    {
+        if(i==n)
+        {
+            ans.push_back(currSum);
+            return;
+        }
+        
+        //include
+        currSum+=arr[i];
+        solve(i+1, ans, currSum, n, arr);
+        currSum-=arr[i];
+        
+        //exclude
+        solve(i+1, ans, currSum, n, arr);
+        
+    }
+    vector<int> subsetSums(vector<int> arr, int n)
+    {
+        // Write Your Code here
+        vector<int> ans;
+        solve(0, ans, 0, n, arr);
+        return ans;
+    }
+};
+
+99. Next Greater Element
+https://www.codingninjas.com/studio/problems/799354?topList=striver-sde-sheet-problems&utm_source=striver&utm_medium=website&leftPanelTab=0
+
+#include <bits/stdc++.h> 
+
+vector<int> nextGreater(vector<int> &arr, int n) {
+    // Write your code here
+    stack<int> stk;
+        vector<int> ans(n);
+        for(int i=n-1; i>=0; i--)
+        {
+            if(stk.size()==0)
+            {
+                ans[i]=-1;
+            }
+            else if(stk.size()>0 and stk.top()>arr[i])
+            {
+                ans[i]=stk.top();
+            }
+            else if(stk.size()>0 and stk.top()<=arr[i])
+            {
+                while(stk.size()>0 and stk.top()<=arr[i])
+                {
+                    stk.pop();
+                }
+                
+                if(stk.size()==0) ans[i]=-1;
+                else if(stk.top()>arr[i]) ans[i]=stk.top();
+        
+            }
+            
+            stk.push(arr[i]);
+        }
+        return ans;
+
+}
+
+100. Nearest Smaller Element
+https://www.interviewbit.com/problems/nearest-smaller-element/
+vector<int> Solution::prevSmaller(vector<int> &arr) {
+    stack<int> stk;
+    int n=arr.size();
+        vector<int> ans(n);
+        for(int i=0; i<n; i++)
+        {
+            if(stk.size()==0)
+            {
+                ans[i]=-1;
+            }
+            else if(stk.size()>0 and stk.top()<arr[i])
+            {
+                ans[i]=stk.top();
+            }
+            else if(stk.size()>0 and stk.top()>=arr[i])
+            {
+                while(stk.size()>0 and stk.top()>=arr[i])
+                {
+                    stk.pop();
+                }
+                
+                if(stk.size()==0) ans[i]=-1;
+                else if(stk.top()<arr[i]) ans[i]=stk.top();
+        
+            }
+            
+            stk.push(arr[i]);
+        }
+        return ans;
+}
