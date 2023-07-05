@@ -1,0 +1,79 @@
+101. Binary Search Tree Iterator
+https://leetcode.com/problems/binary-search-tree-iterator/
+class BSTIterator {
+public:
+    int i;
+    vector<int> inorder;
+    
+    BSTIterator(TreeNode* root) {
+        getInorder(root);
+        i=0;
+    }
+    void getInorder(TreeNode *root)
+    {
+        if(!root) return;
+        
+        getInorder(root->left);
+        inorder.push_back(root->val);
+        getInorder(root->right);
+    }
+    int next() {
+        if(i>=inorder.size())
+        {
+            return -1;
+        }
+        return inorder[i++];
+    }
+    
+    bool hasNext() {
+        if(i<=inorder.size()-1)
+        {
+            return true;
+        }
+        return false;
+    }
+};
+102. Preorder inorder postorder in a single traversal
+https://www.codingninjas.com/studio/problems/981269?topList=striver-sde-sheet-problems&utm_source=striver&utm_medium=website&leftPanelTab=0
+void solve(BinaryTreeNode<int> *root, vector<int> &preorder, vector<int> &inorder, vector<int> &postorder)
+{
+    if(!root) return;
+
+    preorder.push_back(root->data);
+    solve(root->left, preorder, inorder, postorder);
+    inorder.push_back(root->data);
+    solve(root->right, preorder, inorder, postorder);
+    postorder.push_back(root->data);
+}
+vector<vector<int>> getTreeTraversal(BinaryTreeNode<int> *root){
+    // Write your code here.
+    vector<int> preorder, inorder, postorder;
+    solve(root, preorder, inorder, postorder);
+    return {inorder, preorder, postorder};
+}
+
+103. Path in a tree
+https://www.codingninjas.com/studio/problems/path-in-a-tree_3843990?topList=striver-sde-sheet-problems&utm_source=striver&utm_medium=website&leftPanelTab=0
+void solve(TreeNode<int> *root, vector<int> &ans, vector<int> current, int x)
+{
+	if(!root) return;
+
+
+	if(root->data==x)
+	{
+		current.push_back(root->data);
+		ans=current;
+		return;
+	}
+
+	current.push_back(root->data);
+	solve(root->left, ans, current, x);
+	solve(root->right, ans, current, x);
+	current.pop_back();
+}
+vector<int> pathInATree(TreeNode<int> *root, int x)
+{
+	vector<int> current, ans;
+	solve(root, ans, current, x);
+	return ans;
+}
